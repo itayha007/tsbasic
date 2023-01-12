@@ -57,20 +57,62 @@ const part1  = () : void =>{
 } 
 
 
-import * as fs from 'fs';
-const part2 = () : void=>{
-    fs.readFile('currencies.txt', 'utf8', (err, data) => {
-        if (err) throw err;
-    
-        const currencies: {[key: string]: number} = {};
-        const lines = data.split('\n');
-    
-        for (const line of lines) {
-            const currency = line.split(':');
-            currencies[currency[0].trim()] = Number(currency[1]);
-        }
+type Currency = {
+    [key: string]: number
+};
+
+const readFile1 = async () : Promise<Currency> => {
+    return new Promise<Currency>((resolve, reject) => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.onchange = (event: any) => {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = () => {
+                const data = reader.result as string;
+                const lines = data.toString().split('\n');
+                const currencies: {[key: string]: number} = {};
+                for (const line of lines) {
+                    const currency = line.split(':');
+                    currencies[currency[0].trim()] = Number(currency[1]);
+                }
+                resolve(currencies);
+            };
+            reader.readAsText(file);
+        };
+        document.body.appendChild(input);
+        input.click();
     });
+};
+const part2 = async () : Promise<void> => {
+    let currencies = await readFile1();
 
-    
+    let action = prompt("what would like to do? (for value write 'value', for  ");
 
+    if (action =="value") {
+        let currency = prompt("enter dollar, yen, euro, nis, peso, pound"); 
+        switch(currency){
+            case "dollar":
+                alert(currencies.dollar);
+                break;
+            case "yen":
+                alert(currencies.yen);
+                break;
+            case "euro":
+                alert(currencies.euro);
+                break;
+            case "nis":
+                alert(currencies.nis);
+                break;
+            case "peso":
+                alert(currencies.peso);
+                break;
+            case "pound":
+                alert(currencies.pound);
+                break;
+            default:
+                alert("no such currency")
+        }
+    }
 }
+part2();
