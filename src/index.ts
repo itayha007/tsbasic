@@ -61,33 +61,32 @@ type Currency = {
     [key: string]: number
 };
 
-const readFile1 = async () : Promise<Currency> => {
+
+const readFile = async (filePath: string): Promise<Currency> => {
+    const res = await fetch(filePath);
+    const fileBlob = await res.blob();
     return new Promise<Currency>((resolve, reject) => {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.onchange = (event: any) => {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = () => {
-                const data = reader.result as string;
-                const lines = data.toString().split('\n');
-                const currencies: {[key: string]: number} = {};
-                for (const line of lines) {
-                    const currency = line.split(':');
-                    currencies[currency[0].trim()] = Number(currency[1]);
-                }
-                resolve(currencies);
-            };
-            reader.readAsText(file);
+        const reader = new FileReader();
+        reader.onload = () => {
+            const data = reader.result as string;
+            const lines = data.toString().split('\n');
+            const currencies: {[key: string]: number} = {};
+            for (const line of lines) {
+                const currency = line.split(':');
+                currencies[currency[0].trim()] = Number(currency[1]);
+            }
+            resolve(currencies);
         };
-        document.body.appendChild(input);
-        input.click();
+        reader.readAsText(fileBlob);
     });
 };
-const part2 = async () : Promise<void> => {
-    let currencies = await readFile1();
 
-    let action = prompt("what would like to do? (for value write 'value', for  ");
+
+const part2 = async () : Promise<void> => {
+    let filePath = "currencies.txt";
+    let currencies = await readFile(filePath);
+
+    let action = prompt("what would like to do? (for value write 'value', 'convert', 'multi_convert'");
 
     if (action =="value") {
         let currency = prompt("enter dollar, yen, euro, nis, peso, pound"); 
@@ -113,6 +112,72 @@ const part2 = async () : Promise<void> => {
             default:
                 alert("no such currency")
         }
+    }
+    else if (action == "convert"){
+        let currency = prompt("enter dollar, yen, euro, nis, peso, pound"); 
+        let amount = prompt("enter the amount you would like to convert");
+        switch(currency){
+            case "dollar":
+                alert(currencies.dollar*Number(amount));
+                break;
+            case "yen":
+                alert(currencies.yen*Number(amount));
+                break;
+            case "euro":
+                alert(currencies.euro*Number(amount));
+                break;
+            case "nis":
+                alert(currencies.nis*Number(amount));
+                break;
+            case "peso":
+                alert(currencies.peso*Number(amount));
+                break;
+            case "pound":
+                alert(currencies.pound*Number(amount));
+                break;
+            default:
+                alert("no such currency")
+        }
+        
+
+    }
+    else if(action=="multi_convert"){
+        let sum = 0;
+        let currency = prompt("enter dollar, yen, euro, nis, peso, pound( to stop enter 'stop')"); 
+        let amount = prompt("enter the amount you would like to convert");
+        while(currency != "stop"){
+
+            switch(currency){
+                case "dollar":
+                    sum += currencies.dollar*Number(amount);
+                    break;
+                case "yen":
+                    sum += currencies.yen*Number(amount);
+                    break;
+                case "euro":
+                    sum += currencies.euro*Number(amount);
+                    break;
+                case "nis":
+                    sum += currencies.nis*Number(amount);
+                    break;
+                case "peso":
+                    sum += currencies.peso*Number(amount);
+                    break;
+                case "pound":
+                    sum += currencies.pound*Number(amount);
+                    break;
+                case "stop":
+                    break;
+                default:
+                    alert("no such currency")
+            }
+            currency = prompt("enter dollar, yen, euro, nis, peso, pound( to stop enter 'stop')"); 
+            amount = prompt("enter the amount you would like to convert");
+
+
+        }
+        alert("taht is " + amount + "nis")
+
     }
 }
 part2();
