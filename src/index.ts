@@ -1,4 +1,4 @@
-/// ex1 
+
 const  getAverage = (numbers: number[]) : number => {
     let sum  = 0;
     for(let i=0; i<numbers.length; i++){
@@ -7,10 +7,6 @@ const  getAverage = (numbers: number[]) : number => {
     return sum/numbers.length;
 }
 
-///console.log(getAverage([2,3,4,56,4,2,4,5,5,4,3,4,4]))
-
-/// ex2
-
 const getAmountOfPositve = (numbers: Number[]) : number =>{
     let count = 0;
     for(let i = 0; i< numbers.length; i++){
@@ -18,12 +14,49 @@ const getAmountOfPositve = (numbers: Number[]) : number =>{
     }
     return count;
 }
-///console.log(getAmountOfPositve([2,3,4,56,4,2,4,5,5,4,3,4,4]))
 
-/// ex3 
+
 const sortList = (numbers: Number[]) : Number[] =>{
     
     return numbers.sort();
 }
 
-/// console.log(sortList([2,3,4,56,4,2,4,5,5,4,3,4,4]))
+
+
+const getUserInput = () : number[] =>{
+    const numbers: number[] =[] ;
+    let num = prompt("enter number(to stop enter -1)", " ") ;
+    while(Number(num) != -1){
+        numbers.push(Number(num));
+        num = prompt("enter number(to stop enter -1)", " ") ;
+
+    }
+    return  numbers;
+
+}
+const part1  = () : void =>{
+    const numbers : number[] = getUserInput();
+    
+    let action = prompt("enter what you would like to do (average, amountpositive, sortlist)" ,"average, amountpositive, sortlist ")
+     
+    switch(action){
+        case "average":
+            getAverage(numbers);
+            break;
+        case "amountpositive":
+            getAmountOfPositve(numbers);
+            break;
+        case "sortlist":
+            sortList(numbers);
+            break;
+        default:
+            alert("dont recognize any of that")
+
+    }
+
+} 
+
+part1()
+ 
+
+
