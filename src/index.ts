@@ -1,18 +1,10 @@
 
-const  getAverage = (numbers: number[]) : number => {
-    let sum  = 0;
-    for(let i=0; i<numbers.length; i++){
-        sum += numbers[i];
-    }
-    return sum/numbers.length;
+const getAverage = (numbers: number[]): number => {
+    return numbers.reduce((a, b) => a + b) / numbers.length;
 }
 
-const getAmountOfPositve = (numbers: Number[]) : number =>{
-    let count = 0;
-    for(let i = 0; i< numbers.length; i++){
-        if(numbers[i]>0) count++;
-    }
-    return count;
+const getAmountOfPositive = (numbers: number[]): number => {
+    return numbers.filter(num => num > 0).length;
 }
 
 
@@ -37,17 +29,17 @@ const getUserInput = () : number[] =>{
 const part1  = () : void =>{
     const numbers : number[] = getUserInput();
     
-    let action = prompt("enter what you would like to do (average, amountpositive, sortlist)" ,"average, amountpositive, sortlist ")
+    let action   = prompt("enter what you would like to do (average, amountpositive, sortlist)" ,"average, amountpositive, sortlist "); 
      
     switch(action){
         case "average":
-            getAverage(numbers);
+            alert(getAverage(numbers));
             break;
         case "amountpositive":
-            getAmountOfPositve(numbers);
+            alert(getAmountOfPositive(numbers));
             break;
         case "sortlist":
-            sortList(numbers);
+            alert(sortList(numbers));
             break;
         default:
             alert("dont recognize any of that")
@@ -143,6 +135,7 @@ const part2 = async () : Promise<void> => {
     }
     else if(action=="multi_convert"){
         let sum = 0;
+        let flag = true;
         let currency = prompt("enter dollar, yen, euro, nis, peso, pound( to stop enter 'stop')"); 
         let amount = prompt("enter the amount you would like to convert");
         while(currency != "stop"){
@@ -166,17 +159,22 @@ const part2 = async () : Promise<void> => {
                 case "pound":
                     sum += currencies.pound*Number(amount);
                     break;
-                case "stop":
-                    break;
+                
                 default:
                     alert("no such currency")
             }
             currency = prompt("enter dollar, yen, euro, nis, peso, pound( to stop enter 'stop')"); 
-            amount = prompt("enter the amount you would like to convert");
-
-
+            if(currency =="stop"){
+                flag  = false;
+            }
+            if(flag){
+                 
+                amount = prompt("enter the amount you would like to convert");
+            }
+            
+                
         }
-        alert("taht is " + amount + "nis")
+        alert("that  is " + sum + " nis")
 
     }
 }
