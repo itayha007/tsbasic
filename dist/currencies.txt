@@ -1,0 +1,6 @@
+dollar: 3.44
+euro: 3.70
+nis: 1
+peso: 0.062
+pound: 4.18
+yen: 0.026

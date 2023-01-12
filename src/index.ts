@@ -56,7 +56,21 @@ const part1  = () : void =>{
 
 } 
 
-part1()
- 
 
+import * as fs from 'fs';
+const part2 = () : void=>{
+    fs.readFile('currencies.txt', 'utf8', (err, data) => {
+        if (err) throw err;
+    
+        const currencies: {[key: string]: number} = {};
+        const lines = data.split('\n');
+    
+        for (const line of lines) {
+            const currency = line.split(':');
+            currencies[currency[0].trim()] = Number(currency[1]);
+        }
+    });
 
+    
+
+}
